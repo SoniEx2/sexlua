@@ -8,7 +8,7 @@ This is a list of (to-be-)implemented features.
     The `Return()` function is tightly coupled to the core. It allows for
     premature returns in expressions. It works like `coroutine.yield()`,
     except you cannot "resume" a `Return()`ed function.
-- [ ] Self-with-expression
+- [x] Self-with-expression
     
     Self-with-expression is about being able to use `self:calls()` with
     index expressions, using the syntax `self:[index_expression]()`.
