@@ -1,4 +1,4 @@
 sexlua
 ======
 
-A Lua tweaker thingy
+A Lua dialect.
