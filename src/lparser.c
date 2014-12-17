@@ -898,7 +898,7 @@ static void primaryexp (LexState *ls, expdesc *v) {
 
 static void suffixedexp (LexState *ls, expdesc *v) {
   /* suffixedexp ->
-       primaryexp { '.' NAME | '[' exp ']' | ':' NAME funcargs | funcargs } */
+       primaryexp { '.' NAME | '[' exp ']' | ':' NAME funcargs | ':[' exp ']' funcargs | funcargs } */
   FuncState *fs = ls->fs;
   int line = ls->linenumber;
   primaryexp(ls, v);
@@ -917,9 +917,17 @@ static void suffixedexp (LexState *ls, expdesc *v) {
       }
       case ':': {  /* `:' NAME funcargs */
         expdesc key;
+        int flag = 0;
         luaX_next(ls);
-        checkname(ls, &key);
+        if (ls->t.token == '[') {
+          luaK_exp2anyregup(fs, v);
+          yindex(ls, &key);
+          if (key.k == VNONRELOC) flag = 1;
+        }
+        else
+          checkname(ls, &key);
         luaK_self(fs, v, &key);
+        if (flag) ls->fs->freereg++;
         funcargs(ls, v, line);
         break;
       }
