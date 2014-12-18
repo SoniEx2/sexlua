@@ -2,3 +2,5 @@
 /src/luac
 /src/lua
 /src/liblua.a
+/install
+/tests

@@ -895,13 +895,8 @@ static void primaryexp (LexState *ls, expdesc *v) {
   }
 }
 
-
-static void suffixedexp (LexState *ls, expdesc *v) {
-  /* suffixedexp ->
-       primaryexp { '.' NAME | '[' exp ']' | ':' NAME funcargs | ':[' exp ']' funcargs | funcargs } */
+static void indexexp (LexState *ls, expdesc *v) {
   FuncState *fs = ls->fs;
-  int line = ls->linenumber;
-  primaryexp(ls, v);
   for (;;) {
     switch (ls->t.token) {
       case '.': {  /* fieldsel */
@@ -915,7 +910,24 @@ static void suffixedexp (LexState *ls, expdesc *v) {
         luaK_indexed(fs, v, &key);
         break;
       }
-      case ':': {  /* `:' NAME funcargs */
+      default: return;
+    }
+  }
+}
+
+static void suffixedexp (LexState *ls, expdesc *v) {
+  /* suffixedexp ->
+       primaryexp { '.' NAME | '[' exp ']' | ':' NAME funcargs | ':[' exp ']' funcargs | funcargs } */
+  FuncState *fs = ls->fs;
+  int line = ls->linenumber;
+  primaryexp(ls, v);
+  for (;;) {
+    switch (ls->t.token) {
+      case '.': case '[': {  /* fieldsel | `[' exp1 `]' */
+        indexexp(ls, v);
+        break;
+      }
+      case ':': {  /* `:' NAME funcargs | `:[' exp1 `]' funcargs */
         expdesc key;
         int flag = 0;
         luaX_next(ls);
@@ -928,6 +940,7 @@ static void suffixedexp (LexState *ls, expdesc *v) {
           checkname(ls, &key);
         luaK_self(fs, v, &key);
         if (flag) ls->fs->freereg++;
+        indexexp(ls, v);
         funcargs(ls, v, line);
         break;
       }
