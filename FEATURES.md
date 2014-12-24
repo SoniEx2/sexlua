@@ -22,4 +22,7 @@ This is a list of (to-be-)implemented features.
     This can be combined with the above to make things like
     `_G:["_G"]["table"].insert("some object")`, which roughly translates
     to `_G["_G"]["table"].insert(_G, "some object")`.
+- [ ] Accept more __call-ables
     
+    This feature adds more support for __call-ables so you can use them
+    in more stuff (xpcall's second argument, for example).
