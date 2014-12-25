@@ -26,3 +26,8 @@ This is a list of (to-be-)implemented features.
     
     This feature adds more support for __call-ables so you can use them
     in more stuff (xpcall's second argument, for example).
+- [ ] Yieldable string.gsub() functions
+    
+    What if you could coroutine.yield() from inside a string.gsub()
+    function? e.g. `string.gsub(s,p,function(...) return
+    coroutine.yield(...) end)`
