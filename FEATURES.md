@@ -31,3 +31,7 @@ This is a list of (to-be-)implemented features.
     What if you could coroutine.yield() from inside a string.gsub()
     function? e.g. `string.gsub(s,p,function(...) return
     coroutine.yield(...) end)`
+- [ ] Mangle C functions to workaround exploits
+    
+    Use an array and dynamically put C functions in it as they're being
+    accessed. Patch OP_GETTABLE to mangle them on read.
