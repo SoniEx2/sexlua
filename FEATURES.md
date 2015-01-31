@@ -35,3 +35,4 @@ This is a list of (to-be-)implemented features.
     
     Use an array and dynamically put C functions in it as they're being
     accessed. Patch OP_GETTABLE to mangle them on read.
+- [x] OP_ME

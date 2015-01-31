@@ -861,6 +861,10 @@ void luaV_execute (lua_State *L) {
       vmcase(OP_EXTRAARG,
         lua_assert(0);
       )
+      vmcase(OP_ME,
+        setobjs2s(L, ra, ci->func);
+        checkGC(L, ra + 1);
+      )
     }
   }
 }

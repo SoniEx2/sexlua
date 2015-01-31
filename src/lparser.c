@@ -889,6 +889,12 @@ static void primaryexp (LexState *ls, expdesc *v) {
       singlevar(ls, v);
       return;
     }
+    case '@': {
+      init_exp(v, VRELOCABLE, luaK_codeABx(ls->fs, OP_ME, ls->fs->freereg, 0));
+      luaK_exp2nextreg(ls->fs, v);
+      luaX_next(ls);
+      return;
+    }
     default: {
       luaX_syntaxerror(ls, "unexpected symbol");
     }
