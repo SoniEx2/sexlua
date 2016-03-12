@@ -35,4 +35,28 @@ This is a list of (to-be-)implemented features.
     
     Use an array and dynamically put C functions in it as they're being
     accessed. Patch OP_GETTABLE to mangle them on read.
-- [x] OP_ME
+- [x] Self-referential functions
+    
+    Allows a function, anonymous or otherwise, to refer to itself through `@`.
+    
+    Example:
+    
+    ```lua
+    -- plain Lua
+    local function f(i)
+      if i == 0 then return end
+      return f(i-1)
+    end
+    local g=f
+    f=print
+    g(1) -- prints 0
+    -- self-referential functions
+    local function f(i)
+      if i == 0 then return end
+      return @(i-1)
+    end
+    local g=f
+    f=print
+    g(1) -- loops once
+    f(2) -- prints 2
+    ```
